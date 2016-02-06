@@ -25,7 +25,7 @@
   "contributes": {
     "commands": [{
       "command": "closeTag.closeHTMLTag",
-      "title": "Close tag: Close last opened HTML/XML tag"
+      "title": "Close Tag: Close last opened HTML/XML tag"
     }],
     "keybindings": [{
       "command": "closeTag.closeHTMLTag",
