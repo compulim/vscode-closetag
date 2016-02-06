@@ -1,6 +1,8 @@
 # Close tag keyboard shortcut
 Closes last opened HTML or XML tag with `Alt+.`
 
+![Demo showing how close tag works](demo.gif)
+
 ## Usage
 By default, close tag is bound to `Alt+.`. You can still run it thru Command Palette.
 * Bring up Command Palette (`F1`, or `Ctrl+Shift+P` on Windows and Linux, or `Shift+CMD+P` on OSX)
