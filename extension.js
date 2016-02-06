@@ -5,7 +5,7 @@
 const vscode = require('vscode');
 
 // We will ignore empty tag
-const TAG_PATTERN = /<(\/?)(\w[\d\w]*)(\s+\w[\d\w]*=".*?")*\s*>/g;
+const HTML_TAG_PATTERN = /<(\/?)(\w[\d\w]*)(\s+\w[\d\w]*=".*?")*\s*>/g;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -19,7 +19,7 @@ function activate(context) {
   // The commandId parameter must match the command field in package.json
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
-      'closetag.close',
+      'closeTag.closeHTMLTag',
       (textEditor, edit) => {
         // The code you place here will be executed every time your command is executed
 
@@ -47,7 +47,7 @@ function findTags(line) {
   const result = [];
   let match;
 
-  while ((match = TAG_PATTERN.exec(line))) {
+  while ((match = HTML_TAG_PATTERN.exec(line))) {
     result.push({
       tagName: match[2],
       close: match[1] === '/'
