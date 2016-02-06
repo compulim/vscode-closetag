@@ -1,0 +1,34 @@
+{
+  "name": "compulim-vscode-closetag",
+  "displayName": "Close HTML/XML tag",
+  "description": "Quickly close last opened HTML/XML tag",
+  "version": "0.0.1",
+  "publisher": "Compulim",
+  "engines": {
+    "vscode": "^0.10.1"
+  },
+  "icon": "icon.png",
+  "galleryBanner.color": "#0D5CAB",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/compulim/vscode-closetag.git"
+  },
+  "bugs": "https://github.com/compulim/vscode-closetag/issues/",
+  "homepage": "https://github.com/compulim/vscode-closetag/blob/master/README.md",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:closetag.close"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "commands": [{
+      "command": "closetag.close",
+      "title": "Close tag: Close last opened HTML/XML tag"
+    }]
+  },
+  "devDependencies": {
+    "vscode": "0.10.x"
+  }
+}
