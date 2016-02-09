@@ -17,5 +17,12 @@ You can also modify keyboard shortcut with JSON below.
 }
 ```
 
+## Change log
+* 0.0.5 (2016-02-09): Updated to use new VS Code API reference, technically `vscode^0.11.x`
+
 ## Contributions
-* [Issues](https://github.com/compulim/vscode-closetag/issues/)
+Love this extension? [Star](https://github.com/compulim/vscode-closetag/stargazers) us!
+
+Want to make this extension even more awesome? [Send your wish](https://github.com/compulim/vscode-closetag/issues/new/) to us.
+
+Hate how it is working? [File an issue](https://github.com/compulim/vscode-closetag/issues/new/) to us.
