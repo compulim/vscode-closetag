@@ -15,6 +15,12 @@
   },
   "bugs": "https://github.com/compulim/vscode-closetag/issues/",
   "homepage": "https://github.com/compulim/vscode-closetag/blob/master/README.md",
+  "keywords": [
+    "close",
+    "tag",
+    "html",
+    "xml"
+  ],
   "categories": [
     "Other"
   ],
