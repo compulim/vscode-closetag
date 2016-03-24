@@ -18,6 +18,10 @@ You can also modify keyboard shortcut with JSON below.
 ```
 
 ## Change log
+* 0.0.6 (2016-03-25)
+  * Behavior: will no longer highlight newly added close tag
+  * Fix: when a tag span across multiple lines, the close tag is incorrect
+  * Fix: when the cursor is in the middle of the line, the close tag is incorrect
 * 0.0.5 (2016-02-09): Updated to use new API reference, technically `vscode^0.11.x`, to align with VS Code 0.10.8 (January 2016)
 
 ## Contributions

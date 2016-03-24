@@ -21,18 +21,35 @@ function activate(context) {
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTag',
       (textEditor, edit) => {
-        // The code you place here will be executed every time your command is executed
-
         const selection = textEditor.selection;
-        let startLine = selection.start.line;
+
+        let
+          startLine = selection.start.line,
+          tags = [];
 
         while (startLine >= 0) {
-          const
-            text = getLineText(textEditor, startLine),
-            tag = firstOpenTag(findTags(text).reverse());
+          let text = getLineText(textEditor, startLine);
+
+          // If we are on the first line of selection, omit the letters beyond the start of selection
+          if (startLine === selection.start.line) {
+            text = text.substr(0, selection.start.character);
+          }
+
+          const newTags = findTags(text).reverse();
+
+          tags = tags.concat(newTags);
+
+          const tag = firstOpenTag(tags);
 
           if (tag) {
-            edit.replace(selection, `</${tag.tagName}>`);
+            const closeTag = `</${tag.tagName}>`;
+
+            if (selection.start.line !== selection.end.line || selection.start.character !== selection.end.character) {
+              edit.replace(selection, closeTag);
+            } else {
+              edit.insert(selection.anchor, closeTag);
+            }
+
             break;
           } else {
             startLine--;
