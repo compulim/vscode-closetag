@@ -5,7 +5,7 @@
 const vscode = require('vscode');
 
 // We will ignore empty tag
-const HTML_TAG_PATTERN = /<(\/?)(\w[\d\w]*)(\s+\w[\d\w]*=".*?")*\s*>/g;
+const HTML_TAG_PATTERN = /<(\/?)([\w_:][\d\w\.\-_:]*)(\s+\w[\d\w]*=".*?")*\s*>/g;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,40 +21,40 @@ function activate(context) {
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTag',
       (textEditor, edit) => {
-        const selection = textEditor.selection;
+        textEditor.selections.forEach(selection => {
+          let
+            startLine = selection.start.line,
+            tags = [];
 
-        let
-          startLine = selection.start.line,
-          tags = [];
+          while (startLine >= 0) {
+            let text = getLineText(textEditor, startLine);
 
-        while (startLine >= 0) {
-          let text = getLineText(textEditor, startLine);
-
-          // If we are on the first line of selection, omit the letters beyond the start of selection
-          if (startLine === selection.start.line) {
-            text = text.substr(0, selection.start.character);
-          }
-
-          const newTags = findTags(text).reverse();
-
-          tags = tags.concat(newTags);
-
-          const tag = firstOpenTag(tags);
-
-          if (tag) {
-            const closeTag = `</${tag.tagName}>`;
-
-            if (selection.start.line !== selection.end.line || selection.start.character !== selection.end.character) {
-              edit.replace(selection, closeTag);
-            } else {
-              edit.insert(selection.anchor, closeTag);
+            // If we are on the first line of selection, omit the letters beyond the start of selection
+            if (startLine === selection.start.line) {
+              text = text.substr(0, selection.start.character);
             }
 
-            break;
-          } else {
-            startLine--;
+            const newTags = findTags(text).reverse();
+
+            tags = tags.concat(newTags);
+
+            const tag = firstOpenTag(tags);
+
+            if (tag) {
+              const closeTag = `</${tag.tagName}>`;
+
+              if (selection.start.line !== selection.end.line || selection.start.character !== selection.end.character) {
+                edit.replace(selection, closeTag);
+              } else {
+                edit.insert(selection.anchor, closeTag);
+              }
+
+              break;
+            } else {
+              startLine--;
+            }
           }
-        }
+        });
       }
     )
   );
