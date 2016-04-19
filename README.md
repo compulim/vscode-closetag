@@ -19,7 +19,7 @@ You can also modify keyboard shortcut with JSON below.
 
 ## Change log
 * 0.0.7 (2016-04-19)
-  * Fix: not closing correctly when element name contains `.`,` `-`, `_`, `:`
+  * Fix: not closing correctly when element name contains `.`, `-`, `_`, `:`
   * Feature: close multiple tags
 * 0.0.6 (2016-03-25)
   * Behavior: will no longer highlight newly added close tag
