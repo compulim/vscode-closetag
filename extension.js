@@ -5,7 +5,7 @@
 const vscode = require('vscode');
 
 // We will ignore empty tag
-const HTML_TAG_PATTERN = /<(\/?)([\w_:][\d\w\.\-_:]*)(\s+\w[\d\w]*=".*?")*\s*>/g;
+const HTML_TAG_PATTERN = /<(\/?)([\w_:][\d\w\.\-_:]*)(\s+\w[\d\w]*(=".*?")?)*\s*>/g;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed

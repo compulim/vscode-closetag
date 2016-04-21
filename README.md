@@ -18,6 +18,8 @@ You can also modify keyboard shortcut with JSON below.
 ```
 
 ## Change log
+* 0.0.8 (2016-04-22)
+  * Fix: not closing elements with value-less attributes
 * 0.0.7 (2016-04-19)
   * Fix: not closing correctly when element name contains `.`, `-`, `_`, `:`
   * Feature: close multiple tags
