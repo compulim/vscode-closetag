@@ -25,17 +25,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:closeTag.closeHTMLTag"
+    "onCommand:closeTag.closeHTMLTag",
+    "onCommand:closeTag.closeHTMLTagInPlace"
   ],
   "main": "./extension",
   "contributes": {
     "commands": [{
       "command": "closeTag.closeHTMLTag",
       "title": "Close Tag: Close last opened HTML/XML tag"
+    }, {
+      "command": "closeTag.closeHTMLTagInPlace",
+      "title": "Close Tag: Close last opened HTML/XML tag in-place"
     }],
     "keybindings": [{
       "command": "closeTag.closeHTMLTag",
       "key": "alt+.",
+      "when": "editorTextFocus"
+    }, {
+      "command": "closeTag.closeHTMLTagInPlace",
+      "key": "alt+shift+.",
       "when": "editorTextFocus"
     }]
   },

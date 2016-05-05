@@ -21,43 +21,62 @@ function activate(context) {
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTag',
       (textEditor, edit) => {
-        textEditor.selections.forEach(selection => {
-          let
-            startLine = selection.start.line,
-            tags = [];
+        closeTag(textEditor, edit);
+      }
+    )
+  );
 
-          while (startLine >= 0) {
-            let text = getLineText(textEditor, startLine);
+  context.subscriptions.push(
+    vscode.commands.registerTextEditorCommand(
+      'closeTag.closeHTMLTagInPlace',
+      (textEditor, edit) => {
+        const newSelections = textEditor.selections;
 
-            // If we are on the first line of selection, omit the letters beyond the start of selection
-            if (startLine === selection.start.line) {
-              text = text.substr(0, selection.start.character);
-            }
-
-            const newTags = findTags(text).reverse();
-
-            tags = tags.concat(newTags);
-
-            const tag = firstOpenTag(tags);
-
-            if (tag) {
-              const closeTag = `</${tag.tagName}>`;
-
-              if (selection.start.line !== selection.end.line || selection.start.character !== selection.end.character) {
-                edit.replace(selection, closeTag);
-              } else {
-                edit.insert(selection.anchor, closeTag);
-              }
-
-              break;
-            } else {
-              startLine--;
-            }
-          }
+        textEditor.edit(edit => {
+          closeTag(textEditor, edit);
+        }).then(done => {
+          textEditor.selections = newSelections;
         });
       }
     )
   );
+}
+
+function closeTag(textEditor, edit) {
+  textEditor.selections.forEach(selection => {
+    let
+      startLine = selection.start.line,
+      tags = [];
+
+    while (startLine >= 0) {
+      let text = getLineText(textEditor, startLine);
+
+      // If we are on the first line of selection, omit the letters beyond the start of selection
+      if (startLine === selection.start.line) {
+        text = text.substr(0, selection.start.character);
+      }
+
+      const newTags = findTags(text).reverse();
+
+      tags = tags.concat(newTags);
+
+      const tag = firstOpenTag(tags);
+
+      if (tag) {
+        const closeTag = `</${tag.tagName}>`;
+
+        if (selection.start.line !== selection.end.line || selection.start.character !== selection.end.character) {
+          edit.replace(selection, closeTag);
+        } else {
+          edit.insert(selection.anchor, closeTag);
+        }
+
+        break;
+      } else {
+        startLine--;
+      }
+    }
+  });
 }
 
 function findTags(line) {
