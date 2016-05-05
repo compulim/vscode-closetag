@@ -8,11 +8,18 @@ By default, close tag is bound to `Alt+.`. You can still run it thru Command Pal
 * Bring up Command Palette (`F1`, or `Ctrl+Shift+P` on Windows and Linux, or `Shift+CMD+P` on OSX)
 * Type or select "Close Tag: Close last opened HTML/XML tag"
 
+To close tags without moving cursors or selections, press `Alt+Shift+.` or `closeTag.closeHTMLTagInPlace` command.
+
 You can also modify keyboard shortcut with JSON below.
 ```
 {
   "key": "alt+.",
   "command": "closeTag.closeHTMLTag",
+  "when": "editorTextFocus"
+},
+{
+  "key": "alt+shift+.",
+  "command": "closeTag.closeHTMLTagInPlace",
   "when": "editorTextFocus"
 }
 ```
