@@ -25,6 +25,9 @@ You can also modify keyboard shortcut with JSON below.
 ```
 
 ## Change log
+* 0.1.0 (2016-09-13)
+  * Feature: close React JSX elements and other non-standard XML elements
+  * Fix: will now close elements spanning across multiple lines
 * 0.0.9 (2016-05-05)
   * Feature: close tag in-place and lock current cursor positions
 * 0.0.8 (2016-04-22)
