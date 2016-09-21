@@ -1,6 +1,6 @@
 'use strict';
 
-const TAG_PATTERN = />([A-Za-z:\-_\.]+)\/<|>\/[^\/]*?([A-Za-z:\-_\.]+)<|([A-Za-z:\-_\.]+)</g;
+const TAG_PATTERN = />([0-9A-Za-z:\-_\.]*[A-Za-z\_])\/<|>\/[^\/]*?([0-9A-Za-z:\-_\.]*[A-Za-z\_])<|([0-9A-Za-z:\-_\.]*[A-Za-z\_])</g;
 
 module.exports = function (popper) {
   let fragment = '';

@@ -197,6 +197,18 @@ describe('Find tags', () => {
 
     it('should return "abc.xyz"', () => assert.equal(result, 'abc.xyz'));
   });
+
+  describe('For "<h1>"', () => {
+    let popper, result;
+
+    beforeEach(() => {
+      popper = createPopper(['<h1>']);
+
+      result = findTags(popper);
+    });
+
+    it('should return "h1"', () => assert.equal(result, 'h1'));
+  });
 });
 
 function createPopper(lines) {
