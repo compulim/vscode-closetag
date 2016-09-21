@@ -25,6 +25,8 @@ You can also modify keyboard shortcut with JSON below.
 ```
 
 ## Change log
+* 0.1.1 (2016-09-21)
+  * Fix: not closing <h1> properly
 * 0.1.0 (2016-09-13)
   * Feature: close React JSX elements and other non-standard XML elements
   * Fix: will now close elements spanning across multiple lines
