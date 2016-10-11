@@ -30,24 +30,35 @@
   ],
   "main": "./extension",
   "contributes": {
-    "commands": [{
-      "command": "closeTag.closeHTMLTag",
-      "title": "Close Tag: Close last opened HTML/XML tag"
-    }, {
-      "command": "closeTag.closeHTMLTagInPlace",
-      "title": "Close Tag: Close last opened HTML/XML tag in-place"
-    }],
-    "keybindings": [{
-      "command": "closeTag.closeHTMLTag",
-      "key": "alt+.",
-      "when": "editorTextFocus"
-    }, {
-      "command": "closeTag.closeHTMLTagInPlace",
-      "key": "alt+shift+.",
-      "when": "editorTextFocus"
-    }]
+    "commands": [
+      {
+        "command": "closeTag.closeHTMLTag",
+        "title": "Close Tag: Close last opened HTML/XML tag"
+      },
+      {
+        "command": "closeTag.closeHTMLTagInPlace",
+        "title": "Close Tag: Close last opened HTML/XML tag in-place"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "closeTag.closeHTMLTag",
+        "key": "alt+.",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "closeTag.closeHTMLTagInPlace",
+        "key": "alt+shift+.",
+        "when": "editorTextFocus"
+      }
+    ]
   },
   "devDependencies": {
-    "vscode": "^0.11.x"
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.40",
+    "eslint": "^3.6.0",
+    "mocha": "^2.3.3",
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0"
   }
 }
