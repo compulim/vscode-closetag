@@ -2,7 +2,7 @@
   "name": "compulim-vscode-closetag",
   "displayName": "Close HTML/XML tag",
   "description": "Quickly close last opened HTML/XML tag",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "Compulim",
   "engines": {
     "vscode": "^1.11.0"
