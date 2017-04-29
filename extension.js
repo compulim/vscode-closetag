@@ -1,7 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-const vscode   = require('vscode');
-const findTags = require('./findTags');
+const vscode    = require('vscode');
+
+const findTags            = require('./findTags');
+const normalizeIgnoreTags = require('./utils/normalizeIgnoreTags');
+const reduceMap           = require('./utils/reduceMap');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -16,8 +19,8 @@ function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTag',
-      (textEditor, edit) => {
-        closeSelections(textEditor, edit);
+      (textEditor, edit, args) => {
+        closeSelections(textEditor, edit, args);
       }
     )
   );
@@ -25,10 +28,10 @@ function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTagInPlace',
-      (textEditor, edit) => {
+      (textEditor, edit, args) => {
         const newSelections = textEditor.selections;
 
-        closeSelections(textEditor, edit);
+        closeSelections(textEditor, edit, args);
 
         textEditor.selections = newSelections;
       }
@@ -36,7 +39,20 @@ function activate(context) {
   );
 }
 
-function closeSelections(textEditor, edit) {
+function closeSelections(textEditor, edit, overrideOptions = {}) {
+  const ignoreTags = reduceMap(
+    Object.assign(
+      {},
+      normalizeIgnoreTags(vscode.workspace.getConfiguration('closeTag').get('ignoreTags')),
+      normalizeIgnoreTags(overrideOptions.ignoreTags)
+    ),
+    (result, value, name) => {
+      value && result.push(name);
+      return result;
+    },
+    []
+  );
+
   textEditor.selections.forEach(selection => {
     let startLine = selection.start.line;
     let startCharacter = selection.start.character;
@@ -51,7 +67,7 @@ function closeSelections(textEditor, edit) {
 
         return line;
       }
-    });
+    }, { ignoreTags });
 
     if (tagToClose) {
       const closeTag = `</${ tagToClose }>`;
@@ -62,7 +78,7 @@ function closeSelections(textEditor, edit) {
         edit.insert(selection.anchor, closeTag);
       }
     }
-  });
+  }, { ignoreTags });
 }
 
 function getLineText(textEditor, line, char) {

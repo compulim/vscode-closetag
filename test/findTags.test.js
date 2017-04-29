@@ -218,6 +218,30 @@ describe('Find tags', () => {
 
     it('should return "p"', () => assert.equal(result, 'p'));
   });
+
+  describe('For "<div><img>" and ignoring "img"', () => {
+    let popper, result;
+
+    beforeEach(() => {
+      popper = createPopper(['<div><img>']);
+
+      result = findTags(popper, { ignoreTags: ['img'] });
+    });
+
+    it('should return "div"', () => assert.equal(result, 'div'));
+  });
+
+  describe('For "<div></img>" and ignoring "img"', () => {
+    let popper, result;
+
+    beforeEach(() => {
+      popper = createPopper(['<div></img>']);
+
+      result = findTags(popper, { ignoreTags: ['img'] });
+    });
+
+    it('should return "div"', () => assert.equal(result, 'div'));
+  });
 });
 
 function createPopper(lines) {

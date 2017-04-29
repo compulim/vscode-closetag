@@ -40,6 +40,17 @@
         "title": "Close Tag: Close last opened HTML/XML tag in-place"
       }
     ],
+    "configuration": {
+      "type": "object",
+      "title": "Close tag configuration",
+      "properties": {
+        "closeTag.ignoreTags":{
+          "type": ["string", "object", "null"],
+          "default": null,
+          "description": "Specifies tags which will be ignored and not closed. Possibilities are:\n - null (ignore nothing)\n - 'html' (ignore HTML void elements specified at https://www.w3.org/TR/html/syntax.html#void-elements)\n - { br: true, img: true } (custom set of tags)"
+        }
+      }
+    },
     "keybindings": [
       {
         "command": "closeTag.closeHTMLTag",

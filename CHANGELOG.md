@@ -3,6 +3,13 @@ All notable changes to the "vscode-closetag" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.0](https://github.com/compulim/vscode-closetag/releases/tag/v1.0.0) - 2017-04-29
+### Added
+- ([#9](https://github.com/compulim/vscode-closetag/issues/9)) New configuration option `closeTag.ignoreTags` to ignore tags, possibilities are:
+  - `null` (ignore nothing)
+  - `'html'` (ignore [HTML void elements](https://www.w3.org/TR/html/syntax.html#void-elements))
+  - `{ br: true, img: true }` (custom set of tags)
+
 ## [1.0.0](https://github.com/compulim/vscode-closetag/releases/tag/v1.0.0) - 2017-04-29
 ### Added
 - Integration tests
