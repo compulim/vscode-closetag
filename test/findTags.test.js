@@ -206,6 +206,18 @@ describe('Find tags', () => {
 
     it('should return "h1"', () => assert.equal(result, 'h1'));
   });
+
+  describe('For "<p><div><img></div>"', () => {
+    let popper, result;
+
+    beforeEach(() => {
+      popper = createPopper(['<p><div><img></div>']);
+
+      result = findTags(popper);
+    });
+
+    it('should return "p"', () => assert.equal(result, 'p'));
+  });
 });
 
 function createPopper(lines) {

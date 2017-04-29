@@ -34,7 +34,7 @@ function firstOpenTag(fragment) {
       tags.unshift(closeTag);
     } else if (openTag && openTag === tags[0]) {
       tags.shift();
-    } else if (!selfClosingTag) {
+    } else if (!selfClosingTag && !tags.length) {
       return openTag.split('').reverse().join('');
     }
   }
