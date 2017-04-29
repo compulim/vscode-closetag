@@ -1,26 +1,23 @@
-'use strict';
-
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-
+const vscode   = require('vscode');
 const findTags = require('./findTags');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  // console.log('Congratulations, your extension "compulim-vscode-closetag" is now active!');
+    // Use the console to output diagnostic information (console.log) and errors (console.error)
+    // This line of code will only be executed once when your extension is activated
+    // console.log('Congratulations, your extension "compulim-vscode-closetag" is now active!');
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with  registerCommand
-  // The commandId parameter must match the command field in package.json
+    // The command has been defined in the package.json file
+    // Now provide the implementation of the command with  registerCommand
+    // The commandId parameter must match the command field in package.json
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'closeTag.closeHTMLTag',
       (textEditor, edit) => {
-        textEditor.edit(edit => closeSelections(textEditor, edit));
+        closeSelections(textEditor, edit);
       }
     )
   );
@@ -31,11 +28,9 @@ function activate(context) {
       (textEditor, edit) => {
         const newSelections = textEditor.selections;
 
-        textEditor.edit(edit => {
-          closeSelections(textEditor, edit);
-        }).then(() => {
-          textEditor.selections = newSelections;
-        });
+        closeSelections(textEditor, edit);
+
+        textEditor.selections = newSelections;
       }
     )
   );

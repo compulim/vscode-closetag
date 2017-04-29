@@ -1,10 +1,8 @@
-/* global suite, test */
-
-'use strict';
+/* global describe, beforeEach, afterEach, it */
 
 //
 // Note: This example test is leveraging the Mocha test framework.
-// Please refer to their documentation on https://mochajs.org/ for help.
+// Please refer-their documentation on https://mochajs.org/ for help.
 //
 
 // The module 'assert' provides assertion methods from node
@@ -12,205 +10,126 @@ const assert = require('assert');
 
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
-// const vscode = require('vscode');
-// const myExtension = require('../extension');
-const findTags = require('../findTags');
+const fs     = require('fs');
+const path   = require('path');
+const vscode = require('vscode');
+
+const { commands, workspace, window, Range, Selection } = vscode;
 
 // Defines a Mocha test suite to group tests of similar kind together
-describe('Find tags', () => {
-  describe('For "<html>"', () => {
-    let popper, result;
+describe('Extension Test', () => {
+  let textEditor;
 
-    beforeEach(() => {
-      popper = createPopper(['<html>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "html"', () => assert.equal(result, 'html'));
+  beforeEach(() => {
+    return workspace.openTextDocument(path.join(__dirname, '../sample.xml'))
+      .then(document => {
+        return window.showTextDocument(document);
+      })
+      .then(editor => {
+        textEditor = editor;
+      });
   });
 
-  describe('For "<html>\\n"', () => {
-    let popper, result;
-
+  describe('Close tag at (5, 0)', () => {
     beforeEach(() => {
-      popper = createPopper(['<html>', '']);
+      textEditor.selection = new Selection(5, 0, 5, 0);
 
-      result = findTags(popper);
+      return commands.executeCommand('closeTag.closeHTMLTag');
     });
 
-    it('should return "html"', () => assert.equal(result, 'html'));
+    it('should close as expected', () => {
+      return assertContent(textEditor.document, 'simpleCloseTag.xml');
+    });
   });
 
-  describe('For "<html>\\n<head></head>"', () => {
-    let popper, result;
-
+  describe('Close tags at (5, 13) and (6, 13)', () => {
     beforeEach(() => {
-      popper = createPopper(['<html>', '<head></head>']);
+      textEditor.selections = [
+        new Selection(5, 13, 5, 13),
+        new Selection(6, 13, 6, 13),
+      ];
 
-      result = findTags(popper);
+      return commands.executeCommand('closeTag.closeHTMLTag');
     });
 
-    it('should return "html"', () => assert.equal(result, 'html'));
+    it('should close as expected', () => {
+      return assertContent(textEditor.document, 'multipleCloseTags.xml');
+    });
   });
 
-  describe('For "<html>\\n<head>\\n</head>"', () => {
-    let popper, result;
-
+  describe('Close tags in-place at (5, 13)-(5, 16)', () => {
     beforeEach(() => {
-      popper = createPopper(['<html>', '<head>', '</head>']);
+      textEditor.selection = new Selection(5, 13, 5, 16);
 
-      result = findTags(popper);
+      return commands.executeCommand('closeTag.closeHTMLTagInPlace');
     });
 
-    it('should return "html"', () => assert.equal(result, 'html'));
+    it('should close as expected', () => {
+      return assertContent(textEditor.document, 'simpleCloseTagInPlace.xml');
+    });
+
+    it('should select newly closed tag', () => {
+      const { selection } = textEditor;
+
+      assert.equal(selection.anchor.line, 5);
+      assert.equal(selection.anchor.character, 13);
+      assert.equal(selection.active.line, 5);
+      assert.equal(selection.active.character, 21);
+    });
   });
 
-  describe('For "<body>\\n<div abc="123">\\n</div>"', () => {
-    let popper, result;
-
+  describe('Close tags in-place at (5, 13)-(5, 16) and (6, 13)-(6, 16)', () => {
     beforeEach(() => {
-      popper = createPopper(['<body>', '<div abc="123">', '</div>']);
+      textEditor.selections = [
+        new Selection(5, 13, 5, 16),
+        new Selection(6, 13, 6, 16)
+      ];
 
-      result = findTags(popper);
+      return commands.executeCommand('closeTag.closeHTMLTagInPlace');
     });
 
-    it('should return "body"', () => assert.equal(result, 'body'));
+    it('should close as expected', () => {
+      return assertContent(textEditor.document, 'multipleCloseTagsInPlace.xml');
+    });
+
+    it('should select newly closed tags', () => {
+      const { selections } = textEditor;
+
+      assert.equal(selections[0].anchor.line, 5);
+      assert.equal(selections[0].anchor.character, 13);
+      assert.equal(selections[0].active.line, 5);
+      assert.equal(selections[0].active.character, 21);
+
+      assert.equal(selections[1].anchor.line, 6);
+      assert.equal(selections[1].anchor.character, 13);
+      assert.equal(selections[1].active.line, 6);
+      assert.equal(selections[1].active.character, 21);
+    });
   });
 
-  describe('For "<body>\\n<img />"', () => {
-    let popper, result;
+  afterEach(() => {
+    // return commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
 
-    beforeEach(() => {
-      popper = createPopper(['<body>', '<img />']);
-
-      result = findTags(popper);
+    return commands.executeCommand('workbench.action.files.revert').then(() => {
+      return commands.executeCommand('workbench.action.closeActiveEditor');
     });
-
-    it('should return "body"', () => assert.equal(result, 'body'));
-  });
-
-  describe('For "<img\\n/>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<img', 'style=""', '/>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "undefined"', () => assert(!result));
-  });
-
-  describe('For "  <img\\n    src="logo.png"\\n  />"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['  <span', '    style="top: 1px;"', '  >']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "span"', () => assert.equal(result, 'span'));
-  });
-
-  describe('For "<span>1 < 2"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<span>1 < 2']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "span"', () => assert.equal(result, 'span'));
-  });
-
-  describe('For "<input type={\'text\'}>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<input type={\'text\'}>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "input"', () => assert.equal(result, 'input'));
-  });
-
-  describe('For "<123>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<123>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "undefined"', () => assert.equal(typeof result, 'undefined'));
-  });
-
-  describe('For "<abc-xyz>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<abc-xyz>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "abc-xyz"', () => assert.equal(result, 'abc-xyz'));
-  });
-
-  describe('For "<abc_xyz>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<abc_xyz>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "abc_xyz"', () => assert.equal(result, 'abc_xyz'));
-  });
-
-  describe('For "<ns:xyz>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<ns:xyz>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "ns:xyz"', () => assert.equal(result, 'ns:xyz'));
-  });
-
-  describe('For "<abc.xyz>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<abc.xyz>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "abc.xyz"', () => assert.equal(result, 'abc.xyz'));
-  });
-
-  describe('For "<h1>"', () => {
-    let popper, result;
-
-    beforeEach(() => {
-      popper = createPopper(['<h1>']);
-
-      result = findTags(popper);
-    });
-
-    it('should return "h1"', () => assert.equal(result, 'h1'));
   });
 });
 
-function createPopper(lines) {
-  return () => lines.pop();
+function assertContent(textDocument, expectedFilename) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path.join(__dirname, 'baseline', expectedFilename), 'utf8', (err, expected) => {
+      if (err) { return reject(err); }
+
+      try {
+        const actual = textDocument.getText(new Range(0, 0, Infinity, Infinity));
+
+        assert.equal(actual, expected, `Content does not match "${ expectedFilename }"`);
+      } catch (err) {
+        return reject(err);
+      }
+
+      resolve();
+    });
+  });
 }
