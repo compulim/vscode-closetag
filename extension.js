@@ -26,14 +26,28 @@ function activate(context) {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerTextEditorCommand(
+    vscode.commands.registerCommand(
       'closeTag.closeHTMLTagInPlace',
-      (textEditor, edit, args) => {
-        const newSelections = textEditor.selections;
+      (args) => {
+        const textEditor = vscode.window.activeTextEditor;
+        if (!textEditor) return;
+        const previousSelections = textEditor.selections;
+        textEditor.edit((edit) => {
+          closeSelections(textEditor, edit, args);
+        }).then(() => {
+          const currentSelections = textEditor.selections;
 
-        closeSelections(textEditor, edit, args);
+          previousSelections.forEach((selection, i) => {
+            // If a range of text was selected previously, then just keep it
+            // since the new replacement text will be selected already.
+            // Otherwise, restore the previous cursor position.
+            if (selection.isEmpty) {
+              currentSelections[i] = selection;
+            }
+          });
 
-        textEditor.selections = newSelections;
+          textEditor.selections = currentSelections;
+        });
       }
     )
   );
