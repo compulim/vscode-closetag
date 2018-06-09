@@ -3,7 +3,11 @@ All notable changes to the "vscode-closetag" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [1.1.0](https://github.com/compulim/vscode-closetag/releases/tag/v1.0.0) - 2017-04-29
+## [1.1.1](https://github.com/compulim/vscode-closetag/releases/tag/v1.1.1) - 2018-06-09
+### Fixed
+- ([#15](https://github.com/compulim/vscode-closetag/issues/15)) Fix broken under VSCode 1.24.0
+
+## [1.1.0](https://github.com/compulim/vscode-closetag/releases/tag/v1.1.0) - 2017-04-29
 ### Added
 - ([#9](https://github.com/compulim/vscode-closetag/issues/9)) New configuration option `closeTag.ignoreTags` to ignore tags, possibilities are:
   - `null` (ignore nothing)

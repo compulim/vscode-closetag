@@ -1,5 +1,7 @@
 # Close tag keyboard shortcut
 
+[![Build Status](https://travis-ci.org/compulim/vscode-closetag.svg?branch=master)](https://travis-ci.org/compulim/vscode-closetag)
+
 Closes last opened HTML or XML tag with `Alt+.`
 
 ![Demo showing how close tag works](https://raw.githubusercontent.com/compulim/vscode-closetag/master/demo.gif)
