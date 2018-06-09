@@ -39,12 +39,12 @@ function activate(context) {
   );
 }
 
-function closeSelections(textEditor, edit, overrideOptions = {}) {
+function closeSelections(textEditor, edit, overrideOptions) {
   const ignoreTags = reduceMap(
     Object.assign(
       {},
       normalizeIgnoreTags(vscode.workspace.getConfiguration('closeTag').get('ignoreTags')),
-      normalizeIgnoreTags(overrideOptions.ignoreTags)
+      normalizeIgnoreTags((overrideOptions || {}).ignoreTags)
     ),
     (result, value, name) => {
       value && result.push(name);
