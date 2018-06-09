@@ -1,1 +1,1 @@
-vsce publish -p $VSCE_TOKEN
+npx vsce publish -p $VSCE_TOKEN

@@ -30,5 +30,6 @@ script:
 deploy:
   - provider: script
     script: bash scripts/deploy-vsce.sh
+    skip_cleanup: true
     on:
       tags: true
