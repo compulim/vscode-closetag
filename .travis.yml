@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "10"
+env:
+  global:
+    secure: eQRIUinl00EmfO79gUdhfD2TG/O/7cE0yBzZoR7JBlhYfLsCqXGNAWEqIOGiaQfjWZxRwhvswoGL++gLy84UPHqieXAccZSZ1xdOFWaMuQVqaZm7cfLlxmWLHIdO66vE78rXLeZS3AVErxRvtcENVJKkFemtxI1gTte8zMzlY91pApr6XP06YcDFb/6pcFguyeRD8IHJZZie9MBbKVbtkdRuCDPvcS5a41WowJuFWlNqqMkAWUybXJbLrYuIQ+vk1rqE6nL4XALUoAhpbdUf+l0vUQumtY1jIjG/5b1woao8bgHBCTy+QlWq/Z4Y7y3MQjAYPIuNLAwNK76B/+zOPgISQj58OY+eYk0rg11+loqwDLYy5HgZWzbmgc7lHVmyHkZFyle3ULWMsvK6BnDAJc0mI5Ai8nsSGdxlYvlTXwj86pdcxWGGDnp+xM6ISF/3HLUOvQONxavfj+b04nv1llX6qxCNNXnaq1hwSA+hLLMd8SKebvp47xqVZ50DLJEwSaoQv/x/jzlh4PAviJUZtfoIEgYAxIbPvflhMgyOBzs+MfJ4nZuCeFV9U/ZPKBtVfhKsxrgm2aERpYHms0EZzrIc9rq0zsxorE83zrRBnjzjDjNDH8nwvvHRMjBWUryt7MUxluNhnIw262bw57RQ7P7gej+j3Z4Mb4q5SA4nIg==
+deploy:
+  - provider: script
+    script: bash scripts/deploy-vsce.sh
+    on:
+      tags: true
