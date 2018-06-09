@@ -2,7 +2,7 @@
   "name": "compulim-vscode-closetag",
   "displayName": "Close HTML/XML tag",
   "description": "Quickly close last opened HTML/XML tag",
-  "version": "1.1.0",
+  "version": "1.1.1-0",
   "publisher": "Compulim",
   "engines": {
     "vscode": "^1.11.0"
@@ -44,8 +44,12 @@
       "type": "object",
       "title": "Close tag configuration",
       "properties": {
-        "closeTag.ignoreTags":{
-          "type": ["string", "object", "null"],
+        "closeTag.ignoreTags": {
+          "type": [
+            "string",
+            "object",
+            "null"
+          ],
           "default": null,
           "description": "Specifies tags which will be ignored and not closed. Possibilities are:\n - null (ignore nothing)\n - 'html' (ignore HTML void elements specified at https://www.w3.org/TR/html/syntax.html#void-elements)\n - { br: true, img: true } (custom set of tags)"
         }
