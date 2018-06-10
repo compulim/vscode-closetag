@@ -79,18 +79,39 @@ describe('Extension Test', () => {
       });
     });
 
-    describe('Close tags in-place at (5, 13)-(5, 16) and (6, 13)-(6, 16)', () => {
+    describe('Close tags in-place at (5, 13)', () => {
+      beforeEach(() => {
+        textEditor.selection = new Selection(5, 13, 5, 13);
+
+        return commands.executeCommand('closeTag.closeHTMLTagInPlace');
+      });
+
+      it('should close as expected', () => {
+        return assertContent(textEditor.document, 'simpleCloseTagInPlaceInsert.xml');
+      });
+
+      it('should not move cursor', () => {
+        const { selection } = textEditor;
+
+        assert.equal(selection.anchor.line, 5);
+        assert.equal(selection.anchor.character, 13);
+        assert.equal(selection.active.line, 5);
+        assert.equal(selection.active.character, 13);
+      });
+    });
+
+    describe('Close tags in-place at (5, 13) and (6, 13)', () => {
       beforeEach(() => {
         textEditor.selections = [
-          new Selection(5, 13, 5, 16),
-          new Selection(6, 13, 6, 16)
+          new Selection(5, 13, 5, 13),
+          new Selection(6, 13, 6, 13)
         ];
 
         return commands.executeCommand('closeTag.closeHTMLTagInPlace');
       });
 
       it('should close as expected', () => {
-        return assertContent(textEditor.document, 'multipleCloseTagsInPlace.xml');
+        return assertContent(textEditor.document, 'multipleCloseTagsInPlaceInsert.xml');
       });
 
       it('should select newly closed tags', () => {
@@ -99,12 +120,12 @@ describe('Extension Test', () => {
         assert.equal(selections[0].anchor.line, 5);
         assert.equal(selections[0].anchor.character, 13);
         assert.equal(selections[0].active.line, 5);
-        assert.equal(selections[0].active.character, 21);
+        assert.equal(selections[0].active.character, 13);
 
         assert.equal(selections[1].anchor.line, 6);
         assert.equal(selections[1].anchor.character, 13);
         assert.equal(selections[1].active.line, 6);
-        assert.equal(selections[1].active.character, 21);
+        assert.equal(selections[1].active.character, 13);
       });
     });
 
