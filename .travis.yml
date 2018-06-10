@@ -32,6 +32,7 @@ deploy:
     script: bash scripts/deploy-vsce.sh
     skip_cleanup: true
     on:
+      condition: $TRAVIS_OS_NAME = linux
       tags: true
 
   - provider: releases
