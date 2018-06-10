@@ -3,7 +3,7 @@ All notable changes to the "vscode-closetag" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## Unreleased
+## [1.2.0](https://github.com/compulim/vscode-closetag/releases/tag/v1.2.0) - 2018-06-09
 ### Fixed
 - ([#11](https://github.com/compulim/vscode-closetag/issues/11)) Fix in-place should not move cursor, by [`@rbolsius`](https://github.com/rbolsius) in [PR #12](https://github.com/compulim/vscode-closetag/pull/12)
 
